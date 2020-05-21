@@ -8,10 +8,11 @@ class TodoList extends Component {
         super(props)
 
         this.state = {
-            todos: [{ task: 'Walk the fish' }, { task: 'Groom chickens' }]
+            todos: []
         }
 
         this.create = this.create.bind(this)
+        this.remove = this.remove.bind(this)
     }
 
     create(newTodo) {
@@ -20,8 +21,21 @@ class TodoList extends Component {
         })
     }
 
+    remove(id) {
+        this.setState({
+            todos: this.state.todos.filter((todo) => todo.id !== id)
+        })
+    }
+
     render() {
-        const todos = this.state.todos.map((todo) => <Todo task={todo.task} />)
+        const todos = this.state.todos.map((todo) => (
+            <Todo
+                key={todo.id}
+                id={todo.id}
+                task={todo.task}
+                removeTodo={this.remove}
+            />
+        ))
         return (
             <div>
                 <h1>Todo List!</h1>
