@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import styles from './Todo.module.css'
+
 class Todo extends Component {
     constructor(props) {
         super(props)
@@ -9,20 +11,21 @@ class Todo extends Component {
             task: this.props.task
         }
 
-        this.handleRemove = this.handleRemove.bind(this)
         this.toggleForm = this.toggleForm.bind(this)
+        this.handleRemove = this.handleRemove.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleUpdate = this.handleUpdate.bind(this)
-    }
-
-    handleRemove() {
-        this.props.removeTodo(this.props.id)
+        this.handleToggle = this.handleToggle.bind(this)
     }
 
     toggleForm() {
         this.setState({
             isEditing: !this.state.isEditing
         })
+    }
+
+    handleRemove() {
+        this.props.removeTodo(this.props.id)
     }
 
     handleUpdate(evt) {
@@ -35,6 +38,10 @@ class Todo extends Component {
         this.setState({
             [evt.target.name]: evt.target.value
         })
+    }
+
+    handleToggle() {
+        this.props.toggleTodo(this.props.id)
     }
 
     render() {
@@ -58,7 +65,12 @@ class Todo extends Component {
                 <div>
                     <button onClick={this.toggleForm}>Edit</button>
                     <button onClick={this.handleRemove}>X</button>
-                    <li>{this.props.task}</li>
+                    <li
+                        className={this.props.completed && styles.Completed}
+                        onClick={this.handleToggle}
+                    >
+                        {this.props.task}
+                    </li>
                 </div>
             )
         }
